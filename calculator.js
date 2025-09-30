@@ -8,13 +8,12 @@ const enterButton = document.querySelector("#enter");
 const dotButton = document.querySelector('.dot');
 const display = document.querySelector("#text-area");
 
-display.textContent = 0;
-
 let num1 = 0;
 let num2 = 0;
 let operator = null;
 let nextNumber = false;
-let repeat = false; // when just pressing enter without changing op or num2
+let secondNumber = false;
+let repeatLastOperation = false; // when just pressing enter without changing op or num2
 display.textContent = 0;
 
 clearButton.addEventListener('click', () => clear());
@@ -35,10 +34,18 @@ operationButtons.forEach((button) => {
             operator = button.id;
             return;
         }
+        if (secondNumber && !nextNumber) {
+            operate(num1, num2, operator);
+            operator = button.id;
+            nextNumber = true;
+            num1 = +display.textContent;
+            return;
+        }
         operator = button.id;
         num1 = +display.textContent;
         nextNumber = true;
-        repeat = false;
+        secondNumber = true;
+        repeatLastOperation = false;
     })
 })
 
@@ -60,7 +67,7 @@ digitButtons.forEach((button) => {
         } else {
             display.textContent += button.textContent;
         }
-        repeat=false;
+        repeatLastOperation=false;
         
     })
 })
@@ -70,11 +77,14 @@ function clear() {
     num2 = 0;
     operator = null;
     nextNumber = false;
-    repeat = false;
+    repeatLastOperation = false;
     display.textContent = 0;
 }
 
 function del() {
+    if (nextNumber) {
+        return;
+    }
     let string = display.textContent;
     if (string.length > 1) {
         display.textContent = string.slice(0, -1);
@@ -117,10 +127,11 @@ function mult(a,b) {
 }
 
 function operate(num1, num2, operator) {
-    if (!repeat) {
+    if (!repeatLastOperation || !nextNumber) {
         num2 = +display.textContent;
     }
-    repeat=true;
+    
+    repeatLastOperation=true;
     nextNumber = true;
     
     switch(operator) {
