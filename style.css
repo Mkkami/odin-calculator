@@ -28,7 +28,7 @@
     align-items: center;
 }
 
-.button {
+button {
     font-size: 50px;
     width: 125px;
     display: inline-block;
