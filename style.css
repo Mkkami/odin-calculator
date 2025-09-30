@@ -1,14 +1,30 @@
+body {
+    background-color: gray;
+}
 .calculator {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: auto;
+    max-width: fit-content;
+    background-color: #0d495f;
+
 }
 
+#name {
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    align-self: flex-end;
+}
 .display {
-    border: 4px solid black;
+    /* border: 4px solid black; */
     min-height: 100px;
     min-width: 600px;
+    margin-bottom: 10px;
 }
 
 #text-area {
@@ -34,6 +50,26 @@ button {
     display: inline-block;
     height: 125px;
 }
+
+.digit,
+.dot,
+.result {
+    color: white;
+    background-color: gray;
+}
+
+.clear,
+.all-clear {
+    background-color: #7c2e2e;
+    color: white;
+}
+
+.operation,
+.percent {
+    background-color: black;
+    color: white;
+}
+
 #enter {
     width: 275px;
 }

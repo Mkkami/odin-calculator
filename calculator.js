@@ -12,7 +12,6 @@ let num1 = 0;
 let num2 = 0;
 let operator = null;
 let nextNumber = false;
-let equalPressed = false;
 display.textContent = 0;
 
 clearButton.addEventListener('click', () => clear());
@@ -52,7 +51,9 @@ function checkState() {
 }
 
 enterButton.addEventListener('click', () => {
-    equalPressed = true;
+    if (nextNumber) {
+        return;
+    }
     num2 = +display.textContent;
     checkState();
     operate();
@@ -70,7 +71,6 @@ digitButtons.forEach((button) => {
         } else {
             display.textContent += button.textContent;
         }
-        repeatLastOperation=false;
         
     })
 })
@@ -80,7 +80,6 @@ function clear() {
     num2 = 0;
     operator = null;
     nextNumber = false;
-    repeatLastOperation = false;
     display.textContent = 0;
 }
 
@@ -148,4 +147,5 @@ function operate() {
             // action without operator - number and enter
     }
     num1 = +display.textContent;
+    nextNumber = true;
 }
