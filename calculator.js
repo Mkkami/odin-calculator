@@ -12,8 +12,7 @@ let num1 = 0;
 let num2 = 0;
 let operator = null;
 let nextNumber = false;
-let secondNumber = false;
-let repeatLastOperation = false; // when just pressing enter without changing op or num2
+let equalPressed = false;
 display.textContent = 0;
 
 clearButton.addEventListener('click', () => clear());
@@ -30,29 +29,33 @@ dotButton.addEventListener('click', () => {
 
 operationButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
+        if (operator == null) {
+            num1 = +display.textContent;
+            operator = button.id;
+            nextNumber = true;
+            return;
+        } 
         if (nextNumber) {
             operator = button.id;
             return;
         }
-        if (secondNumber && !nextNumber) {
-            operate(num1, num2, operator);
-            operator = button.id;
-            nextNumber = true;
-            num1 = +display.textContent;
-            return;
-        }
+        num2 = +display.textContent;
+        operate();
         operator = button.id;
-        num1 = +display.textContent;
         nextNumber = true;
-        secondNumber = true;
-        repeatLastOperation = false;
+        checkState();
     })
 })
 
+function checkState() {
+    console.log(`num1: ${num1} | num2: ${num2} | operator: ${operator}`);
+}
+
 enterButton.addEventListener('click', () => {
-    console.log(`${num1} ${num2} ${operator}`);
-    operate(num1, num2, operator);
-    num1 = +display.textContent;
+    equalPressed = true;
+    num2 = +display.textContent;
+    checkState();
+    operate();
 })
 
 digitButtons.forEach((button) => {
@@ -126,13 +129,7 @@ function mult(a,b) {
     display.textContent = a*b;
 }
 
-function operate(num1, num2, operator) {
-    if (!repeatLastOperation || !nextNumber) {
-        num2 = +display.textContent;
-    }
-    
-    repeatLastOperation=true;
-    nextNumber = true;
+function operate() {
     
     switch(operator) {
         case 'add': 
@@ -150,4 +147,5 @@ function operate(num1, num2, operator) {
         default:
             // action without operator - number and enter
     }
+    num1 = +display.textContent;
 }
